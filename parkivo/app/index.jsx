@@ -1,7 +1,7 @@
 import React from 'react';
-import {View,Text,ImageBackground, Pressable,} from 'react-native';
-import { useRouter } from 'expo-router';
-import { images } from '@/constants/images';
+import {View,Text,ImageBackground, Pressable} from 'react-native';
+import {useRouter} from 'expo-router';
+import {parkingLotImages} from '@/constants/images';
 import styles from '@/styles/global';
 
 function Landing() {
@@ -9,7 +9,7 @@ function Landing() {
 
   return (
     <ImageBackground
-      source={images.park}
+      source={parkingLotImages.lotone}
       resizeMode="cover"
       style={styles.hero}
     >

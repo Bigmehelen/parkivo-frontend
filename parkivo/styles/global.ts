@@ -22,8 +22,13 @@ const styles = StyleSheet.create({
 
   logo: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
+    shadowColor: '#d1c1c1ff',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 5,
   },
 
   navLinks: {

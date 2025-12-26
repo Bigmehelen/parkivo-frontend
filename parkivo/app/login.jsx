@@ -1,13 +1,31 @@
+import React from 'react';
 import { View, Text, TextInput, Pressable } from 'react-native';
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
+import {useState} from 'react';
+import {useRouter} from 'expo-router';
 import styles from '../styles/loginStyle';
+import {useLoginUserMutation} from '../api/authApi.js';
 
 function Login() {
-  const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+    const router = useRouter();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+  
+    const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
+  
+    const handleLogin = async () => {
+      try {
+        const result = await loginUser({
+          email,
+          password,
+        }).unwrap(); 
+  
+        console.log('User registered:', result);
+        router.push('/smartpark');
+      } catch (err) {
+        console.error('Registration failed:', err);
+      }
+    };  
   return (
     <View style={styles.container}>
     <View style={styles.card}>
@@ -21,9 +39,13 @@ function Login() {
         secureTextEntry
       />
 
-      <Pressable style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
-      </Pressable>
+      <Pressable style={styles.button} onPress={handleLogin} disabled={isLoading}>
+          <Text style={styles.buttonText}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </Text>
+        </Pressable>
+
+        {isError && <Text style={{ color: 'red' }}>{error?.data?.message || 'Error occurred'}</Text>}
 
       <Pressable onPress={() => router.push('/register')}>
         <Text style={styles.link}>Don't have an account? Register</Text>

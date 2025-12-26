@@ -9,8 +9,15 @@ const styles = StyleSheet.create({
   },
   card:{
     width: '100%',
-    maxWidth: 420,
+    maxWidth: 450,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     alignItems: 'center',
+    margin: 'auto',
+    padding: 30,
   },
   title: {
     fontSize: 28,
@@ -31,7 +38,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#248606ff',
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderRadius: 8,
     width: '60%',
     maxWidth: 300,

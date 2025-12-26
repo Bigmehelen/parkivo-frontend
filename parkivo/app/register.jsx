@@ -1,8 +1,9 @@
-import { View, Text, TextInput, Pressable } from 'react-native';
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
+import React from 'react';
+import {View, Text, TextInput, Pressable} from 'react-native';
+import {useState} from 'react';
+import {useRouter} from 'expo-router';
 import styles from '../styles/registerStyle';
-import {useRegisterUserMutation} from '../services/authApi';
+import {useRegisterUserMutation} from '../api/authApi.js';
 
 function Register() {
   const router = useRouter();
