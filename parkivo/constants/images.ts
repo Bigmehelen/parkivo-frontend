@@ -3,5 +3,10 @@ export const images = {
 };
 
 export const parkingLotImages = {
-  lotone: require('../assets/images/parksplash.avif'),
-}
+  lotone: require('../assets/images/carlot.png'),
+};
+
+export const profilePicture = {
+  parking: require('../assets/images/lot.avif'),
+
+};

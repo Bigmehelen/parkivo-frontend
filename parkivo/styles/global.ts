@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
   },
 
   overlay: {
@@ -53,6 +54,10 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: 'bold',
     color: '#fff',
+    shadowColor: '#d1c1c1ff',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
     textAlign: 'center',
     maxWidth: 800,
   },
@@ -60,10 +65,11 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 18,
     color: '#ddd',
-    marginTop: 12,
+    marginTop: 30,
     marginBottom: 32,
     textAlign: 'center',
     maxWidth: 600,
+    fontWeight: 'bold',
   },
 
   ctaRow: {
@@ -82,7 +88,7 @@ const styles = StyleSheet.create({
   },
 
   secondary: {
-    backgroundColor: '#248606ff',
+    backgroundColor: '#860666ff',
   },
 
   buttonText: {

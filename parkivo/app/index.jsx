@@ -60,6 +60,7 @@ function Landing() {
         </View>
       </View>
     </ImageBackground>
+  
   );
 }
 export default Landing;

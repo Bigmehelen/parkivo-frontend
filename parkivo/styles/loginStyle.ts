@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#248606ff',
+    backgroundColor: '#860666ff',
     paddingVertical: 10,
     borderRadius: 8,
     width: '60%',
@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
   link: {
     marginTop: 16,
     textAlign: 'center',
-    color: '#248606ff',
+    color: '#860666ff',
   },
   linkHome:{
     marginTop: 16,
     textAlign: 'center',
-    color: '#248606ff',
+    color: '#860666ff',
   }
 });
 
