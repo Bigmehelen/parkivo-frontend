@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
-const styles = StyleSheet.create({
+const styles = (isTablet: boolean) =>
+  StyleSheet.create({
   hero: {
     flex: 1,
     width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
+    resizeMode:"cover",
+    flexDirection: isTablet ? 'row' : 'column',
+    
   },
 
   overlay: {
@@ -14,9 +16,8 @@ const styles = StyleSheet.create({
 
   navbar: {
     width: '100%',
-    paddingHorizontal: 32,
-    paddingVertical: 20,
-    flexDirection: 'row',
+    padding: 20,
+    flexDirection: isTablet ? 'row' : 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     shadowColor: '#d1c1c1ff',
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: {width: 1, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 4,
     elevation: 5,

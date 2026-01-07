@@ -1,11 +1,16 @@
 import React from 'react';
-import {View,Text,ImageBackground, Pressable} from 'react-native';
+import {View,Text,ImageBackground, Pressable, useWindowDimensions} from 'react-native';
 import {useRouter} from 'expo-router';
 import {parkingLotImages} from '@/constants/images';
-import styles from '@/styles/global';
+import createStyle from '@/styles/global';
+
 
 function Landing() {
   const router = useRouter();
+   const {width} = useWindowDimensions();
+  const isTablet = width >= 768;
+
+  const styles = createStyle(isTablet);
 
   return (
     <ImageBackground
@@ -60,7 +65,7 @@ function Landing() {
         </View>
       </View>
     </ImageBackground>
-  
+
   );
 }
 export default Landing;

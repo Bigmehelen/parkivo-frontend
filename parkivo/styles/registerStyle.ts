@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#000000',
     textAlign: 'center',
     width: '90%',
     maxWidth: 360,
