@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyCeXQMardrYV9PtExu0ev8VkY72bNlbVKE"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,14 +22,28 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCeXQMardrYV9PtExu0ev8VkY72bNlbVKE"
+        }
+      }
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCeXQMardrYV9PtExu0ev8VkY72bNlbVKE"
+      }
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Parkivo to use your location to find nearby parking spots."
+        }
+      ],
       [
         "expo-splash-screen",
         {
