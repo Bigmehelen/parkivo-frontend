@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import {View, Text, TextInput, Pressable} from 'react-native';
 import {useState} from 'react';
 import {useRouter} from 'expo-router';
 import styles from '../styles/loginStyle';
@@ -7,8 +7,7 @@ import {useLoginUserMutation} from '../api/authApi.js';
 
 function Login() {
     const router = useRouter();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
     const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
@@ -16,7 +15,7 @@ function Login() {
     const handleLogin = async () => {
       try {
         const result = await loginUser({
-          email,
+          username,
           password,
         }).unwrap(); 
   
@@ -31,11 +30,11 @@ function Login() {
     <View style={styles.card}>
       <Text style={styles.title}>Login</Text>
 
-      <TextInput placeholder="Email" style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address"
+      <TextInput placeholder="Username" placeholderTextColor="#000" style={styles.input} value={username} onChangeText={setUsername} keyboardType="username"
         autoCapitalize="none"
       />
 
-      <TextInput placeholder="Password" style={styles.input} value={password} onChangeText={setPassword}
+      <TextInput placeholder="Password" placeholderTextColor="#000" style={styles.input} value={password} onChangeText={setPassword}
         secureTextEntry
       />
 
@@ -45,7 +44,7 @@ function Login() {
           </Text>
         </Pressable>
 
-        {isError && <Text style={{ color: 'red' }}>{error?.data?.message || 'Error occurred'}</Text>}
+        {isError && <Text style={{ color: 'red' }}>{error?.data?.message || 'Login failed'}</Text>}
 
       <Pressable onPress={() => router.push('/register')}>
         <Text style={styles.link}>Don't have an account? Register</Text>

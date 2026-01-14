@@ -7,7 +7,7 @@ import {useRegisterUserMutation} from '../api/authApi.js';
 
 function Register() {
   const router = useRouter();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,7 +16,7 @@ function Register() {
   const handleRegister = async () => {
     try {
       const result = await registerUser({
-        name,
+        username,
         email,
         password,
       }).unwrap(); 
@@ -33,16 +33,16 @@ function Register() {
       <View style={styles.card}>
         <Text style={styles.title}>Register</Text>
 
-        <TextInput placeholder="Username" style={styles.input} value={name}
-          onChangeText={setName}
+        <TextInput placeholder="Username" placeholderTextColor="#000" style={styles.input} value={username}
+          onChangeText={setUsername}
         />
 
-        <TextInput placeholder="Email" style={styles.input} value={email} onChangeText={setEmail}
+        <TextInput placeholder="Email" placeholderTextColor="#000" style={styles.input} value={email} onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
         />
 
-        <TextInput placeholder="Password" style={styles.input} value={password} onChangeText={setPassword}
+        <TextInput placeholder="Password" placeholderTextColor="#000" style={styles.input} value={password} onChangeText={setPassword}
           secureTextEntry
         />
 
@@ -52,7 +52,7 @@ function Register() {
           </Text>
         </Pressable>
 
-        {isError && <Text style={{ color: 'red' }}>{error?.data?.message || 'Error occurred'}</Text>}
+        {isError && <Text style={{ color: 'red' }}>{error?.data?.message || 'Registration failed'}</Text>}
 
         <Pressable onPress={() => router.push('/login')}>
           <Text style={styles.link}>Already have an account? Login</Text>

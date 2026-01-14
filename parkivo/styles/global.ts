@@ -24,7 +24,7 @@ const styles = (isTablet: boolean) =>
 
   logo: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 36,
     fontWeight: 'bold',
     shadowColor: '#d1c1c1ff',
     shadowOffset: {width: 1, height: 2 },
