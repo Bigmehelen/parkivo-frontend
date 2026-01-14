@@ -10,10 +10,7 @@ const styles = StyleSheet.create({
   card:{
     width: '100%',
     maxWidth: 450,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    boxShadow: '0px 15px 15px rgba(1, 1, 1, 0.1)',
     elevation: 5,
     alignItems: 'center',
     margin: 'auto',
@@ -34,7 +31,9 @@ const styles = StyleSheet.create({
       marginBottom: 16,
       paddingVertical: 14,
       paddingHorizontal: 14,
-      textAlign: 'center',
+      textAlign: 'left',
+      includeFontPadding: false,
+      textAlignVertical: 'center',
       fontSize: 16,
   },
   
