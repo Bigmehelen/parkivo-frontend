@@ -11,7 +11,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [registerUser, { isLoading, isError, error }] = useRegisterUserMutation();
+  const [registerUser, {isLoading, isError, error}] = useRegisterUserMutation();
 
   const handleRegister = async () => {
     try {
@@ -25,6 +25,7 @@ function Register() {
       router.push('/smartpark');
     } catch (err) {
       console.error('Registration failed:', err);
+      alert("Error", "Could not connect to the server.");
     }
   };
 

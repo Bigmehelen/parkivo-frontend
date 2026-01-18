@@ -1,11 +1,11 @@
 import {DarkTheme, DefaultTheme,ThemeProvider} from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { Appearance } from 'react-native';
-import { Colors } from '@/constants/theme';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Stack} from 'expo-router';
+import {StatusBar} from 'expo-status-bar';
+import {Appearance} from 'react-native';
+import {Colors} from '@/constants/theme';
+import {Provider} from 'react-redux';
+import {store} from '../store/store';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -40,6 +40,14 @@ export default function RootLayout() {
             <Stack.Screen
               name="login"
               options={{ headerShown: false, title: 'Login' }}
+            />
+            <Stack.Screen
+              name="smartpark"
+              options={{ headerShown: false, title: 'smartpark' }}
+            />
+            <Stack.Screen
+              name="reserve"
+              options={{ headerShown: false, title: 'Reserve Spot' }}
             />
           </Stack>
 

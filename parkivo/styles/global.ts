@@ -31,6 +31,7 @@ const styles = (isTablet: boolean) =>
   },
 
   navLinks: {
+    margin: 20,
     flexDirection: 'row',
     gap: 24, 
   },

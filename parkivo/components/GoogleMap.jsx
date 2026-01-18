@@ -61,9 +61,17 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking }) =
 
         googleMapRef.current = map;
         setIsLoading(false);
+        setTimeout(() => {
+      window.google.maps.event.trigger(map, 'resize');
+      map.setCenter({
+        lat: location.latitude,
+        lng: location.longitude,
+      });
+    }, 500);
+
 
         // Add user location marker with info window
-        const userMarker = new window.google.maps.Marker({
+        const userMarker = new google.maps.marker.AdvancedMarkerElement({
           position: { lat: location.latitude, lng: location.longitude },
           map: map,
           title: 'Your Location',
@@ -272,7 +280,7 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking }) =
             statusEmoji = '🔴';
           }
 
-          const marker = new window.google.maps.Marker({
+          const marker = new google.maps.marker.AdvancedMarkerElement({
             position: { lat: spot.latitude, lng: spot.longitude },
             map: map,
             title: spot.name,
@@ -416,19 +424,19 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking }) =
           <Text style={styles.loadingText}>Loading map...</Text>
         </View>
       )}
-      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+      <div ref={mapRef} style={{width: '100%', minHeight: 150}} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: 400,
+    flex: 1, 
+    minHeight: 150,
     position: 'relative',
   },
   loadingOverlay: {
-    position: 'absolute',
+    position: 'relative',
     top: 0,
     left: 0,
     right: 0,
@@ -445,7 +453,7 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     width: '100%',
-    height: 400,
+    minHeight: 150,
     backgroundColor: '#fef2f2',
     justifyContent: 'center',
     alignItems: 'center',

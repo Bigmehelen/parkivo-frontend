@@ -23,6 +23,7 @@ function Login() {
         router.push('/smartpark');
       } catch (err) {
         console.error('Registration failed:', err);
+        alert("Could not connect to the server.");
       }
     };  
   return (
