@@ -48,7 +48,14 @@ const styles = StyleSheet.create({
   spotArea: {
      fontSize: 14, 
      color: '#64748b', 
-     marginTop: 4 },
+     marginTop: 4 
+    },
+    spotPrice: {
+    fontSize: 16,
+    color: '#10b981',
+    marginTop: 4,
+    fontWeight: '600'
+    },
   divider: {
      height: 1, 
      backgroundColor: '#f1f5f9', 
@@ -119,15 +126,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#1e293b'
   },
-
   totalSection: {
      marginBottom: 30 
     },
   totalRow: {
-     flexDirection: 'row', 
-     justifyContent: 'space-between',
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
     marginBottom: 8 
-},
+    },
   totalLabel: {
      color: '#64748b', 
      fontSize: 15 
@@ -144,16 +150,16 @@ const styles = StyleSheet.create({
      borderTopColor: '#e2e8f0' 
     },
   grandTotalLabel: {
-     fontSize: 18,
+    fontSize: 18,
     fontWeight: 'bold', 
     color: '#1e293b' 
 },
   grandTotalValue: {
-     fontSize: 22, 
-     fontWeight: 'bold', 
-     color: '#3b82f6' 
+    fontSize: 16,
+    color: '#10b981',
+    marginTop: 4,
+    fontWeight: '600'
     },
-
   confirmButton: { 
     backgroundColor: '#3b82f6',
     width: '50%', 

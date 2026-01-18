@@ -1,105 +1,142 @@
-import {React, useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { View, Text, Pressable, ScrollView, TextInput, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Text, Pressable, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import styles from '../styles/reserveStyle';
+import {useGetUserQuery} from '../api/userApi.js';
 
 const ReserveSpot = () => {
   const router = useRouter();
-  const [duration, setDuration] = useState('1'); // Default 1 hour
-  const [plateNumber, setPlateNumber] = useState('');
   const params = useLocalSearchParams();
 
-  if (!params.name) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>No parking spot selected.</Text>
-        <Pressable onPress={() => router.back()}><Text>Go Back</Text></Pressable>
-      </View>
-    );
-  }
-  const spotDetails = {
-    name: params.name,
-    pricePerHour: parseInt(params.pricePerHour),
-    area: params.area,
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+  const [startTime, setStartTime] = useState("12:00");
+  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
+  const [endTime, setEndTime] = useState("14:00");
+  const [plateNumber, setPlateNumber] = useState('');
+  
+  const [isPaid, setIsPaid] = useState(false);
+
+  const webInputStyle = {
+    padding: '12px',
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
+    fontSize: '14px',
+    backgroundColor: 'white',
+    width: '100%',
+    outline: 'none',
   };
 
-  const totalPrice = spotDetails.pricePerHour * parseInt(duration || 0);
+  const calculation = useMemo(() => {
+    const start = new Date(`${startDate}T${startTime}`);
+    const end = new Date(`${endDate}T${endTime}`);
+    const diffInMs = end - start;
+    const diffInHours = Math.max(0, diffInMs / (1000 * 60 * 60));
+    
+    const days = Math.floor(diffInHours / 24);
+    const remainingHours = Math.round(diffInHours % 24);
+    const serviceCharge = 50;   
+    
+    const pricePerHour = parseInt(params.pricePerHour || 0);
+    const subtotal = Math.ceil(diffInHours) * pricePerHour;
+    const totalAmount = subtotal + serviceCharge;
+
+    return {
+      totalHours: diffInHours.toFixed(1),
+      days,
+      remainingHours,
+      subtotal,
+      totalAmount,
+      isValid: diffInMs > 0
+    };
+  }, [startDate, startTime, endDate, endTime, params.pricePerHour]);
+
+  const handlePayment = () => {
+    if (calculation.isValid) {
+      setIsPaid(true);
+        router.push({
+            pathname: '/confirmPayment',
+            params: {
+                name: params.name,
+                area: params.area,
+                pricePerHour: params.pricePerHour,
+                startDate: startDate,
+                startTime: startTime,
+                endDate: endDate,
+                endTime: endTime,
+                plateNumber: plateNumber,
+                totalAmount: calculation.totalAmount
+            }
+        });
+  }
+  };
+
+//   const handleCancel = () => {
+//     setIsPaid(false);
+//     router.back();
+//   };
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header Section */}
         <View style={styles.header}>
-          <Pressable onPress={() => router.push('/smartpark')} style={styles.backButton}>
-            <Text style={styles.backText}>← Back</Text>
+          <Pressable onPress={() => router.back()} style={styles.backButton}>
+            <Text style={styles.backText}> ← Back</Text>
           </Pressable>
           <Text style={styles.title}>Confirm Reservation</Text>
         </View>
 
-        {/* Selected Spot Summary Card */}
         <View style={styles.summaryCard}>
           <Text style={styles.label}>SELECTED LOCATION</Text>
-          <Text style={styles.spotName}>{spotDetails.name}</Text>
-          <Text style={styles.spotArea}>📍 {spotDetails.area}</Text>
-          <View style={styles.divider} />
-          <View style={styles.priceRow}>
-            <Text style={styles.priceText}>₦{spotDetails.pricePerHour} / hour</Text>
-            <View style={styles.activeBadge}>
-              <Text style={styles.activeBadgeText}>Active Now</Text>
-            </View>
+          <Text style={styles.spotName}>{params.name}</Text>
+          <Text style={styles.spotArea}>📍 {params.area}</Text>
+          <Text style={styles.spotPrice}>₦{params.pricePerHour} per hour</Text>
+          <Text style={styles.username}>{useGetUserQuery().data?.username}</Text>
+        </View>
+
+        <Text style={[styles.inputLabel, {marginTop: 10}]}>Arrival (Start)</Text>
+        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 15 }}>
+          <View style={{ flex: 2 }}>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={webInputStyle} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} style={webInputStyle} />
           </View>
         </View>
 
-        {/* Form Section */}
-        <View style={styles.form}>
-          <Text style={styles.inputLabel}>Duration (Hours)</Text>
-          <View style={styles.durationSelector}>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <Pressable
-                key={num}
-                style={[styles.timeSlot, duration === num.toString() && styles.selectedSlot]}
-                onPress={() => setDuration(num.toString())}
-              >
-                <Text style={[styles.timeSlotText, duration === num.toString() && styles.selectedSlotText]}>
-                  {num}h
-                </Text>
-              </Pressable>
-            ))}
+        <Text style={styles.inputLabel}>Departure (End)</Text>
+        <View style={{ flexDirection: 'row', gap: 10, marginBottom: 20 }}>
+          <View style={{ flex: 2 }}>
+            <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} style={webInputStyle} />
           </View>
-
-          <Text style={styles.inputLabel}>Vehicle Plate Number</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="e.g. ABC-123DE"
-            placeholderTextColor="#94a3b8"
-            value={plateNumber}
-            onChangeText={setPlateNumber}
-            autoCapitalize="characters"
-          />
+          <View style={{ flex: 1 }}>
+            <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} style={webInputStyle} />
+          </View>
         </View>
 
-        {/* Payment Breakdown */}
+        <Text style={styles.inputLabel}>Vehicle Plate Number</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="E.g. KJA-123AA"
+          value={plateNumber}
+          onChangeText={setPlateNumber}
+        />
+
         <View style={styles.totalSection}>
           <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Subtotal</Text>
-            <Text style={styles.totalValue}>₦{totalPrice}</Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Service Fee</Text>
-            <Text style={styles.totalValue}>₦50</Text>
+            <Text style={styles.totalLabel}>Duration</Text>
+            <Text style={styles.totalValue}>{calculation.days > 0 ? `${calculation.days}d ` : ''}{calculation.remainingHours}h total</Text>
           </View>
           <View style={[styles.totalRow, styles.grandTotalRow]}>
             <Text style={styles.grandTotalLabel}>Total Amount</Text>
-            <Text style={styles.grandTotalValue}>₦{totalPrice + 50}</Text>
+            <Text style={styles.grandTotalValue}> Service Charge: ₦50 </Text>
+            <Text style={styles.grandTotalValue}>₦{calculation.isValid ? calculation.totalAmount : 0}</Text>
           </View>
         </View>
 
         <Pressable 
-          style={styles.confirmButton}
-          onPress={() => alert('Reservation Successful!')}
+          disabled={!calculation.isValid}
+          style={[styles.confirmButton, !calculation.isValid && {backgroundColor: '#ccc'}]}
+          onPress={handlePayment}
         >
           <Text style={styles.confirmButtonText}>Confirm & Pay Now</Text>
         </Pressable>
@@ -107,6 +144,5 @@ const ReserveSpot = () => {
     </KeyboardAvoidingView>
   );
 };
-
 
 export default ReserveSpot;

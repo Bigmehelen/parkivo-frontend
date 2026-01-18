@@ -49,6 +49,10 @@ export default function RootLayout() {
               name="reserve"
               options={{ headerShown: false, title: 'Reserve Spot' }}
             />
+            <Stack.Screen
+              name="confirmPayment"
+              options={{ title: 'Confirm Payment', headerShown: false }}
+            /> 
           </Stack>
 
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />

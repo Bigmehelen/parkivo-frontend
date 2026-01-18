@@ -110,7 +110,6 @@ const SmartPark = () => {
   if (selectedParking && selectedParking.availableSpots > 0) {
     router.push({
       pathname: '/reserve',
-      
       params: { 
         name: selectedParking.name, 
         area: selectedParking.area, 
@@ -125,7 +124,6 @@ const SmartPark = () => {
   const getCurrentLocation = async () => {
     try {
       if (Platform.OS === 'web') {
-        // For web, use browser geolocation
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -137,7 +135,6 @@ const SmartPark = () => {
             },
             (error) => {
               console.error('Geolocation error:', error);
-              // Fallback to Lagos (Victoria Island) for demo
               setLocation({
                 latitude: 6.4281,
                 longitude: 3.4219,
@@ -146,7 +143,6 @@ const SmartPark = () => {
             }
           );
         } else {
-          // Fallback to Lagos location
           setLocation({
             latitude: 6.4281,
             longitude: 3.4219,
@@ -154,7 +150,6 @@ const SmartPark = () => {
           setLoading(false);
         }
       } else {
-        // For native platforms
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
@@ -178,9 +173,9 @@ const SmartPark = () => {
 
   const getMarkerColor = (availableSpots, totalSpots) => {
     const percentage = (availableSpots / totalSpots) * 100;
-    if (percentage > 50) return '#10b981'; // Green
-    if (percentage > 20) return '#f59e0b'; // Orange
-    return '#ef4444'; // Red
+    if (percentage > 50) return '#10b981'; 
+    if (percentage > 20) return '#f59e0b'; 
+    return '#ef4444'; 
   };
 
   const getAvailabilityStatus = (availableSpots, totalSpots) => {
@@ -223,7 +218,6 @@ const SmartPark = () => {
         )}
       </View>
 
-      {/* Interactive Google Map */}
       {Platform.OS === 'web' && location && (
         <GoogleMap 
           location={location}
