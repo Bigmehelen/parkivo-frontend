@@ -40,7 +40,20 @@ const ReserveSpot = () => {
 
     let minVal = undefined;
     if (type === 'date') {
-      minVal = target === 'start' ? formatDate(new Date()) : formatDate(startDateTime);
+
+        minVal = target === 'start' ? formatDate(new Date()) : formatDate(startDateTime);
+    } else if (type === 'time') {
+        const todayStr = formatDate(new Date());
+        const arrivalDateStr = formatDate(startDateTime);
+        const selectedDateStr = formatDate(currentVal);
+
+        if (target === 'start' && selectedDateStr === todayStr) {
+
+            minVal = formatTime(new Date());
+        } else if (target === 'end' && selectedDateStr === arrivalDateStr) {
+
+            minVal = formatTime(startDateTime);
+        }
     }
 
     if (Platform.OS === 'web') {
@@ -48,7 +61,7 @@ const ReserveSpot = () => {
         <input 
           type={type} 
           value={value} 
-          min={minVal}
+          min={minVal} 
           onChange={(e) => {
             const val = e.target.value;
             if (!val) return;
@@ -94,14 +107,7 @@ const ReserveSpot = () => {
     const diffInMs = endDateTime.getTime() - startDateTime.getTime();
 
     if (diffInMs <= 0) {
-      return {
-        totalHours: "0.0",
-        days: 0,
-        remainingHours: 0,
-        subtotal: 0,
-        totalAmount: 0,
-        isValid: false
-      };
+      return { totalHours: "0.0", days: 0, remainingHours: 0, subtotal: 0, totalAmount: 0, isValid: false };
     }
 
     const totalHoursRaw = diffInMs / (1000 * 60 * 60); 
@@ -122,6 +128,7 @@ const ReserveSpot = () => {
       remainingHours,
       subtotal,
       totalAmount,
+
       isValid: startDateTime >= new Date(Date.now() - 300000) && endDateTime > startDateTime
     };
   }, [startDateTime, endDateTime, params.pricePerHour]);
@@ -181,6 +188,7 @@ const ReserveSpot = () => {
             value={picker.target === 'start' ? startDateTime : endDateTime}
             mode={picker.mode}
             is24Hour={true}
+            
             minimumDate={picker.target === 'start' ? new Date() : startDateTime}
             onChange={onPickerChange}
           />
@@ -205,8 +213,11 @@ const ReserveSpot = () => {
           </View>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Subtotal</Text>
-
             <Text style={styles.totalValue}>₦{calculation.subtotal}</Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Service Charge</Text>
+            <Text style={styles.totalValue}>₦50</Text>
           </View>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Total</Text>

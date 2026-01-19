@@ -21,6 +21,7 @@ function Register() {
         password,
       }).unwrap(); 
 
+      localStorage.setItem('token', result.token);
       console.log('User registered:', result);
       router.push('/smartpark');
     } catch (err) {
