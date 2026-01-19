@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   selectedSlotText: {
     color: '#fff' 
 },
-  input: { 
+  inputStyle: { 
     backgroundColor: '#fff', 
     padding: 16, 
     borderRadius: 12, 
@@ -162,8 +162,9 @@ const styles = StyleSheet.create({
     },
   confirmButton: { 
     backgroundColor: '#3b82f6',
-    width: '50%', 
+    width: '80%', 
     justifyContent: 'center',
+    alignSelf: 'center',
     alignItems: 'center',
     padding: 16, 
     borderRadius: 16, 

@@ -1,28 +1,36 @@
- import { useLocalSearchParams, useRouter } from 'expo-router';
- import React, { useEffect, useState } from 'react';
- import { View, Text, Image, Pressable } from 'react-native';
- import {useGetUserQuery} from '../api/userApi.js';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, {useMemo} from 'react';
+import { View, Text, Image, Pressable, StyleSheet} from 'react-native';
+import { useGetUserQuery } from '../api/userApi.js';
 
 const ConfirmPayment = () => {
-const router = useRouter();
-const params = useLocalSearchParams();
+  const router = useRouter();
+  const params = useLocalSearchParams();
 
+  const { data: userData } = useGetUserQuery();
 
- const qrData = useMemo(() => {
+  const plateNumber = params.plateNumber || "";
+  const startDate = params.startDate || "";
+  const startTime = params.startTime || "";
+  const endDate = params.endDate || "";
+  const endTime = params.endTime || "";
+  const isPaid = true; 
+  const totalAmount = params.amount || 0;
+
+  const qrData = useMemo(() => {
     const data = {
-      user: useGetUserQuery().data?.username, 
+      user: userData?.username, 
       spot: params.name,
       plate: plateNumber,
       arrival: `${startDate} ${startTime}`,
       departure: `${endDate} ${endTime}`,
       paid: true,
-      amount: calculation.totalAmount
+      amount: totalAmount
     };
     return encodeURIComponent(JSON.stringify(data));
-  }, [isPaid]);
+  }, [userData, params, isPaid]); 
 
- 
- if (isPaid) {
+  if (isPaid) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', padding: 20 }]}>
         <View style={{ backgroundColor: 'white', padding: 25, borderRadius: 20, width: '100%', alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.1, elevation: 10 }}>
@@ -59,5 +67,27 @@ const params = useLocalSearchParams();
       </View>
     );
   }
+
+  return null; 
 }
+
+const styles = StyleSheet.create({
+  container: {
+     flex: 1 
+    },
+  confirmButton: {
+    backgroundColor: '#10b981', 
+    padding: 15, 
+    borderRadius: 10, 
+    alignItems: 'center',
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    },
+  confirmButtonText: {
+     color: 'white', 
+     fontWeight: 'bold' 
+    }
+});
+
 export default ConfirmPayment;

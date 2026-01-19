@@ -1,5 +1,5 @@
 import {Provider} from "react-redux";
-import {store} from "../store/store";
+import {store} from "../store/store.js";
 import {Slot} from "expo-router";
 
 function App() {
