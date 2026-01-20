@@ -8,12 +8,10 @@ const styles = (isTablet: boolean) =>
     flexDirection: isTablet ? 'row' : 'column',
     
   },
-
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.55)',
   },
-
   navbar: {
     width: '100%',
     padding: 20,

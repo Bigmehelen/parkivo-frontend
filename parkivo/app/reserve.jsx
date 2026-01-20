@@ -99,8 +99,14 @@ const ReserveSpot = () => {
   };
 
   const webInputStyle = {
-    padding: '12px', borderRadius: '12px', border: '1px solid #e2e8f0',
-    fontSize: '14px', backgroundColor: 'white', width: '100%', height: '48px', outline: 'none'
+    padding: '12px', 
+    borderRadius: '12px', 
+    border: '1px solid #e2e8f0',
+    fontSize: '14px', 
+    backgroundColor: 'white', 
+    width: '100%', 
+    height: '48px', 
+    outline: 'none' 
   };
 
   const calculation = useMemo(() => {
@@ -188,7 +194,7 @@ const ReserveSpot = () => {
             value={picker.target === 'start' ? startDateTime : endDateTime}
             mode={picker.mode}
             is24Hour={true}
-            
+
             minimumDate={picker.target === 'start' ? new Date() : startDateTime}
             onChange={onPickerChange}
           />
