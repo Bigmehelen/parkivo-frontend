@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const parkingApi = createApi({
   reducerPath: "parkingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "" 
+    baseUrl: "https://smrt-park-backend.onrender.com" 
   }),
   endpoints: (builder) => ({
     getNearbyParkingSpots: builder.query({

@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://172.16.0.16:8085/api/users',
+    baseUrl: 'https://smrt-park-backend.onrender.com/api/users',
     prepareHeaders: async (headers) => {
       try {
         const token = await AsyncStorage.getItem('token');
