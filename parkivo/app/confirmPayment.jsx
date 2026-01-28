@@ -2,13 +2,12 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, {useMemo} from 'react';
 import { View, Text, Image, Pressable} from 'react-native';
 import styles from '../styles/confirmPaymentStyle';
-import { useGetUserQuery } from '../api/userApi.js';
+import {useSelector} from 'react-redux';
 
 const ConfirmPayment = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
-
-  const { data: userData } = useGetUserQuery();
+  const user = useSelector((state) => state.auth.user);
 
   const plateNumber = params.plateNumber || "";
   const startDate = params.startDate || "";
@@ -20,7 +19,7 @@ const ConfirmPayment = () => {
 
   const qrData = useMemo(() => {
     const data = {
-      user: userData?.username, 
+      user: user?.username, 
       spot: params.name,
       plate: plateNumber,
       arrival: `${startDate} ${startTime}`,

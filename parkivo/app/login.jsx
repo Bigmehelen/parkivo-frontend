@@ -21,7 +21,7 @@ function Login() {
         password: password,
         }).unwrap(); 
   
-        dispatch(setCredentials(res));
+        dispatch(setCredentials(result));
         console.log('User registered:', result);
         router.push('/smartpark');
       } catch (err) {

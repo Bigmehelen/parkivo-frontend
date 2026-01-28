@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, Pressable, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import {useLocalSearchParams, useRouter} from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker'; 
 import styles from '../styles/reserveStyle';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const ReserveSpot = () => {
   const router = useRouter();
@@ -173,7 +173,7 @@ const ReserveSpot = () => {
           <Text style={styles.spotPrice}>
             {params.pricePerHour ? `₦${params.pricePerHour} per hour` : "Price unavailable"}
           </Text>
-          <Text style={styles.username}>User: {user?.name}</Text>
+          <Text style={styles.username}>User: {user?.username}</Text>
         </View>
 
         <Text style={[styles.inputLabel, {marginTop: 10}]}>Arrival (Start)</Text>

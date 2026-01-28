@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, ActivityIndicator, Pressable, ScrollView, Platform} from 'react-native';
+import React, {useState, useEffect, useMemo} from 'react';
+import {Text, View, ActivityIndicator, Pressable, ScrollView, Platform, TextInput } from 'react-native';
 import * as Location from 'expo-location';
 import {useRouter} from 'expo-router';
 import GoogleMap from '../components/GoogleMap';
 import styles from '../styles/parkStyle';
-import {useGetParkingSpotsQuery} from '../api/parkingApi';
+import {useGetParkingSpotsQuery} from '../api/viewApi';
+import { Ionicons } from '@expo/vector-icons';
 import {useSelector} from 'react-redux';
 
 const SmartPark = () => {
@@ -12,18 +13,20 @@ const SmartPark = () => {
   const [location, setLocation] = useState(null);
   const [selectedParking, setSelectedParking] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const user = useSelector((state) => state.auth.user);
 
   const {
-    data: parkingSpots = [],
-    isLoading,
-    isError,
-    refetch,
-  } = useGetParkingSpotsQuery();
+  data: parkingSpots = [],
+  isLoading,
+  isError,
+  refetch,
+    } = useGetParkingSpotsQuery(searchQuery, {
+      skip: !searchQuery.trim(),
+  });
 
   const filteredParkingSpots = useMemo(() => {
     if (!searchQuery.trim()) return parkingSpots;
-
     return parkingSpots.filter((spot) =>
       spot.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       spot.area.toLowerCase().includes(searchQuery.toLowerCase())
@@ -53,7 +56,6 @@ const SmartPark = () => {
   useEffect(() => {
     getCurrentLocation();
   }, []);
-
 
   const getCurrentLocation = async () => {
     try {
@@ -135,10 +137,6 @@ const SmartPark = () => {
         )}
       </View>
 
-      <TextInput placeholder="Search by parking name or area" value={searchQuery} onChangeText={setSearchQuery}
-        style={styles.searchInput}
-      />
-
       {Platform.OS === 'web' && location && (
         <GoogleMap
           location={location}
@@ -147,6 +145,18 @@ const SmartPark = () => {
           onMarkerClick={setSelectedParking}
         />
       )}
+      
+    <View style={styles.searchContainer}>
+      <Ionicons name="search-outline" size={20} color="#666" style={styles.searchIcon} />
+      <TextInput 
+        placeholder="Search by parking name or area" 
+        placeholderTextColor="#999"
+        value={searchQuery} 
+        onChangeText={setSearchQuery}
+        style={styles.searchInput}
+      />
+    </View>
+
 
       <ScrollView style={styles.parkingList}>
         <View style={styles.statsContainer}>

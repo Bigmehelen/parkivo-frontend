@@ -202,6 +202,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    // borderRadius: 12,
+    paddingHorizontal: 15,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    height: 50,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '400',
+  },
 });
 
 export default styles;
