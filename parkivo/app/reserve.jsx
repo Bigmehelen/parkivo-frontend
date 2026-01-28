@@ -3,13 +3,12 @@ import { View, Text, Pressable, ScrollView, TextInput, KeyboardAvoidingView, Pla
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import DateTimePicker from '@react-native-community/datetimepicker'; 
 import styles from '../styles/reserveStyle';
-import { useGetUserQuery } from '../api/userApi.js';
+import { useSelector } from 'react-redux';
 
 const ReserveSpot = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
-
-  const { data: userData } = useGetUserQuery();
+  const user = useSelector((state) => state.auth.user);
 
   const [startDateTime, setStartDateTime] = useState(new Date());
   const [endDateTime, setEndDateTime] = useState(new Date(Date.now() + 2 * 60 * 60 * 1000));
@@ -174,7 +173,7 @@ const ReserveSpot = () => {
           <Text style={styles.spotPrice}>
             {params.pricePerHour ? `₦${params.pricePerHour} per hour` : "Price unavailable"}
           </Text>
-          <Text style={styles.username}>User: {userData?.username}</Text>
+          <Text style={styles.username}>User: {user?.name}</Text>
         </View>
 
         <Text style={[styles.inputLabel, {marginTop: 10}]}>Arrival (Start)</Text>

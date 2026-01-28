@@ -4,14 +4,15 @@ import {useState} from 'react';
 import {useRouter} from 'expo-router';
 import styles from '../styles/loginStyle';
 import {useLoginUserMutation} from '../api/authApi.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../api/authSlice';
 
 function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-  
     const [loginUser, { isLoading, isError, error }] = useLoginUserMutation();
+    const dispatch = useDispatch();
   
     const handleLogin = async () => {
       try {
@@ -20,7 +21,7 @@ function Login() {
         password: password,
         }).unwrap(); 
   
-        await AsyncStorage.setItem('token', result.token);
+        dispatch(setCredentials(res));
         console.log('User registered:', result);
         router.push('/smartpark');
       } catch (err) {

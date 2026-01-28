@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import {useRouter} from 'expo-router';
 import GoogleMap from '../components/GoogleMap';
 import styles from '../styles/parkStyle';
-import {useGetNearbyParkingSpotsQuery} from '../api/parkingApi';
+import {useGetParkingSpotsQuery} from '../api/parkingApi';
 import {useSelector} from 'react-redux';
 
 const SmartPark = () => {
@@ -12,7 +12,7 @@ const SmartPark = () => {
   const [location, setLocation] = useState(null);
   const [selectedParking, setSelectedParking] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const userId = useSelector((state) => state.auth.user?.id);
+  const user = useSelector((state) => state.auth.user);
 
   const {
     data: parkingSpots = [],
@@ -42,7 +42,7 @@ const SmartPark = () => {
       pathname: '/reserve',
       params: {
         parkingId: selectedParking.id, 
-        selectedUserId: userId, 
+        userId: user?.id,
         name: selectedParking.name,
         area: selectedParking.area,
         pricePerHour: selectedParking.pricePerHour,
@@ -126,7 +126,7 @@ const SmartPark = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Smart Parking Lot - Lagos</Text>
         <Text style={styles.headerSubtitle}>
-          Welcome{user?.name ? `, ${user.name}` : ''} 👋 Find available parking spots across Lagos State
+          Welcome{user?.name ? `, ${user?.name}` : ''} 👋 Find available parking spots across Lagos State
         </Text>
         {location && (
           <Text style={styles.locationText}>

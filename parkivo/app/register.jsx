@@ -1,17 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, Pressable} from 'react-native';
-import {useState} from 'react';
 import {useRouter} from 'expo-router';
 import styles from '../styles/registerStyle';
 import {useRegisterUserMutation} from '../api/authApi.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../api/authSlice';
 
 function Register() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const dispatch = useDispatch();
   const [registerUser, {isLoading, isError, error}] = useRegisterUserMutation();
 
   const handleRegister = async () => {
@@ -22,7 +22,7 @@ function Register() {
         password: password,
       }).unwrap(); 
 
-      await AsyncStorage.setItem('token', result.token);
+      dispatch(setCredentials(res));
       console.log('User registered:', result);
       router.push('/smartpark');
     } catch (err) {

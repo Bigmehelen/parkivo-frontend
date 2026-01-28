@@ -12,6 +12,14 @@ export const parkingApi = createApi({
         method: "GET",
       }),
     }),
+    endpoints: (builder) => ({
+    getParkingSpots: builder.query({
+        query: () => '/api/owner/parking-spaces/search-park-address',
+        method: "GET",
+        url: '/api/owner/parking-spaces/search-park-address',
+      }),
+    }),
+
     getParkingSpotDetails: builder.query({
       query: (spotId) => ({
         url: `/api/parking/${spotId}`,
@@ -46,4 +54,5 @@ export const {
   useGetParkingSpotDetailsQuery,
   useReserveParkingSpotMutation,
   useUpdateParkingAvailabilityMutation,
+  useGetParkingSpotsQuery,
 } = parkingApi;
