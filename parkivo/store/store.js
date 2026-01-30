@@ -1,8 +1,8 @@
 import {configureStore} from "@reduxjs/toolkit";
-import {authApi} from "../api/authApi.js";
-import {parkingApi} from "../api/parkingApi.js";
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authReducer from '../api/authSlice.js';
+import {authApi} from "../api/authApi.js";
+import {parkingApi} from '../api/parkingApi.js';  
 import {viewApi} from '../api/viewApi.js';
 
 export const store = configureStore({

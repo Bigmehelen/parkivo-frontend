@@ -23,7 +23,7 @@ function Login() {
   
         dispatch(setCredentials(result));
         console.log('User registered:', result);
-        router.push('/smartpark');
+        router.replace('/smartpark');
       } catch (err) {
         console.error('Registration failed:', err);
         alert("Could not connect to the server.");

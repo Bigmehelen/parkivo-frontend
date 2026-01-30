@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {Text, View, ActivityIndicator, Pressable, ScrollView, Platform, TextInput } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import {Text, View, ActivityIndicator,Pressable,ScrollView, Platform,TextInput,Linking, FlatList } from 'react-native';
 import * as Location from 'expo-location';
-import {useRouter} from 'expo-router';
+import { useRouter } from 'expo-router';
 import GoogleMap from '../components/GoogleMap';
 import styles from '../styles/parkStyle';
-import {useGetParkingSpotsQuery} from '../api/viewApi';
+import { useGetParkingSpotsQuery } from '../api/parkingApi';
+import { useSearchParkingSpotsQuery } from '../api/viewApi';
 import { Ionicons } from '@expo/vector-icons';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const SmartPark = () => {
   const router = useRouter();
@@ -16,35 +17,54 @@ const SmartPark = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const user = useSelector((state) => state.auth.user);
 
+  const isSearching = searchQuery.trim().length > 0;
+
   const {
-  data: parkingSpots = [],
-  isLoading,
-  isError,
-  refetch,
-    } = useGetParkingSpotsQuery(searchQuery, {
-      skip: !searchQuery.trim(),
+    data: allParkingSpots = [],
+    isLoading: isLoadingAll,
+    isError: isErrorAll,
+    refetch: refetchAll,
+  } = useGetParkingSpotsQuery();
+
+  const {
+    data: searchedParkingSpots = [],
+    isLoading: isLoadingSearch,
+    isError: isErrorSearch,
+    refetch: refetchSearch,
+  } = useSearchParkingSpotsQuery(searchQuery, {
+    skip: true,
   });
+
+  const parkingSpots = isSearching ? searchedParkingSpots : allParkingSpots;
+  const isLoading = isLoadingAll || isLoadingSearch;
+  const isError = isErrorAll || isErrorSearch;
+  const refetch = isSearching ? refetchSearch : refetchAll;
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return; 
+    refetch(); 
+  };
 
   const filteredParkingSpots = useMemo(() => {
     if (!searchQuery.trim()) return parkingSpots;
     return parkingSpots.filter((spot) =>
-      spot.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      spot.area.toLowerCase().includes(searchQuery.toLowerCase())
+      spot.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      spot.area?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [searchQuery, parkingSpots]);
 
   const handleReserve = () => {
     if (!selectedParking) return;
 
-    if (selectedParking.availableSpots <= 0) {
+    if (Number(selectedParking.availableSpots) <= 0) {
       alert('No available spots!');
       return;
     }
 
-    router.push({
+    router.replace({
       pathname: '/reserve',
       params: {
-        parkingId: selectedParking.id, 
+        parkingId: selectedParking.id,
         userId: user?.id,
         name: selectedParking.name,
         area: selectedParking.area,
@@ -84,24 +104,48 @@ const SmartPark = () => {
           longitude: currentLocation.coords.longitude,
         });
       }
-    } catch (error) {
+    } catch {
       setLocationError('Failed to get location');
     }
   };
 
-  const getMarkerColor = (available, total) => {
+  const getMarkerColor = (available = 0, total = 0) => {
+    if (!total) return '#6b7280';
     const percentage = (available / total) * 100;
     if (percentage > 50) return '#10b981';
     if (percentage > 20) return '#f59e0b';
     return '#ef4444';
   };
 
-  const getAvailabilityStatus = (available, total) => {
+  const getAvailabilityStatus = (available = 0, total = 0) => {
+    if (!total) return 'Unavailable';
     const percentage = (available / total) * 100;
     if (percentage > 50) return 'Plenty Available';
     if (percentage > 20) return 'Limited Spots';
     return 'Almost Full';
   };
+
+  const handleDirections = (spot) => {
+  if (!spot?.latitude || !spot?.longitude) {
+    alert('Location not available for this parking spot');
+    return;
+  }
+
+  const destination = `${spot.latitude},${spot.longitude}`;
+
+  let url = '';
+
+  if (Platform.OS === 'ios') {
+    url = `http://maps.apple.com/?daddr=${destination}`;
+  } else {
+    url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+  }
+
+  Linking.openURL(url).catch(() => {
+    alert('Unable to open maps');
+  });
+};
+
 
   if (isLoading) {
     return (
@@ -123,13 +167,25 @@ const SmartPark = () => {
     );
   }
 
+  const safePrices = parkingSpots
+    .map((s) => Number(s.pricePerHour))
+    .filter((n) => !Number.isNaN(n));
+
+  const minPrice = safePrices.length > 0 ? Math.min(...safePrices) : 0;
+
+  const totalAvailable = parkingSpots.reduce(
+    (sum, s) => sum + (Number(s.availableSpots) || 0),
+    0
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Smart Parking Lot - Lagos</Text>
         <Text style={styles.headerSubtitle}>
-          Welcome{user?.name ? `, ${user?.name}` : ''} 👋 Find available parking spots across Lagos State
+          Welcome {user?.username} Find parking spots near you
         </Text>
+
         {location && (
           <Text style={styles.locationText}>
             📍 {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
@@ -145,18 +201,33 @@ const SmartPark = () => {
           onMarkerClick={setSelectedParking}
         />
       )}
-      
-    <View style={styles.searchContainer}>
-      <Ionicons name="search-outline" size={20} color="#666" style={styles.searchIcon} />
-      <TextInput 
-        placeholder="Search by parking name or area" 
-        placeholderTextColor="#999"
-        value={searchQuery} 
-        onChangeText={setSearchQuery}
-        style={styles.searchInput}
-      />
-    </View>
 
+      <View style={styles.searchContainer}>
+        <Ionicons
+          name="search-outline"
+          size={20}
+          color="#666"
+          style={styles.searchIcon}
+        />
+        <TextInput
+          placeholder="Search by parking name or area"
+          placeholderTextColor="#999"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchInput}
+        />
+        <Pressable style={styles.searchButton} onPress={handleSearch}>
+          <Text style={styles.searchButtonText}>Search</Text>
+        </Pressable>
+
+        <FlatList
+        data={searchedParkingSpots}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Text style={styles.spot}>{item.name}</Text>
+        )}
+      />
+      </View>
 
       <ScrollView style={styles.parkingList}>
         <View style={styles.statsContainer}>
@@ -164,16 +235,14 @@ const SmartPark = () => {
             <Text style={styles.statNumber}>{parkingSpots.length}</Text>
             <Text style={styles.statLabel}>Nearby Spots</Text>
           </View>
+
           <View style={styles.statCard}>
-            <Text style={styles.statNumber}>
-              {parkingSpots.reduce((sum, s) => sum + s.availableSpots, 0)}
-            </Text>
+            <Text style={styles.statNumber}>{totalAvailable}</Text>
             <Text style={styles.statLabel}>Available</Text>
           </View>
+
           <View style={styles.statCard}>
-            <Text style={styles.statNumber}>
-              ₦{Math.min(...parkingSpots.map(s => s.pricePerHour))}
-            </Text>
+            <Text style={styles.statNumber}>₦{minPrice}</Text>
             <Text style={styles.statLabel}>From/hour</Text>
           </View>
         </View>
@@ -198,31 +267,48 @@ const SmartPark = () => {
               <View
                 style={[
                   styles.badge,
-                  { backgroundColor: getMarkerColor(spot.availableSpots, spot.totalSpots) },
+                  {
+                    backgroundColor: getMarkerColor(
+                      Number(spot.availableSpots),
+                      Number(spot.totalSpots)
+                    ),
+                  },
                 ]}
               >
-                <Text style={styles.badgeText}>{spot.availableSpots} spots</Text>
+                <Text style={styles.badgeText}>
+                  {Number(spot.availableSpots) || 0} spots
+                </Text>
               </View>
             </View>
 
             <Text style={styles.statusText}>
-              {getAvailabilityStatus(spot.availableSpots, spot.totalSpots)}
+              {getAvailabilityStatus(
+                Number(spot.availableSpots),
+                Number(spot.totalSpots)
+              )}
             </Text>
 
             {selectedParking?.id === spot.id && (
               <View style={styles.actionButtons}>
-                <Pressable style={styles.reserveButton} onPress={handleReserve}>
+                <Pressable
+                  style={styles.reserveButton}
+                  onPress={handleReserve}
+                >
                   <Text style={styles.reserveButtonText}>Reserve Spot</Text>
                 </Pressable>
+                <Pressable
+                  style={styles.directionsButton}
+                  onPress={() => handleDirections(spot)}>
+                  <Text style={styles.directionsButtonText}>Directions</Text>
+                </Pressable>
+
               </View>
             )}
           </Pressable>
         ))}
 
         {filteredParkingSpots.length === 0 && (
-          <Text style={styles.emptyText}>
-            No parking spaces found
-          </Text>
+          <Text style={styles.emptyText}>No parking spaces found</Text>
         )}
       </ScrollView>
     </View>
