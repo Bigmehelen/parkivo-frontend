@@ -23,4 +23,4 @@ export const viewApi = createApi({
   }),
 })
 
-export const { useSearchParkingSpotsQuery } = viewApi;
+export const { useLazySearchParkingSpotsQuery } = viewApi;
