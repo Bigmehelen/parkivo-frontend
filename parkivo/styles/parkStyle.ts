@@ -1,8 +1,9 @@
 import {StyleSheet} from 'react-native';
 
-const styles = StyleSheet.create({
+const styles = (isTablet: boolean) => StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: isTablet ? 'row' : 'column',
     backgroundColor: '#f3f4f6',
     position: 'relative',
     width: '100%',
@@ -42,6 +43,14 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
     fontWeight: '600',
+  },
+   backButton: {
+     marginBottom: 10 
+  },
+  backText: {
+     color: '#3b82f6', 
+     fontSize: 16, 
+     fontWeight: '600' 
   },
   header: {
     backgroundColor: '#ffffff',

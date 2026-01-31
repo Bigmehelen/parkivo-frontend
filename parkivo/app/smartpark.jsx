@@ -5,12 +5,15 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import GoogleMap from '../components/GoogleMap';
-import styles from '../styles/parkStyle';
+import { createStyle } from '../styles/parkStyle';
 import { useGetParkingSpotsQuery } from '../api/parkingApi';
 import { useLazySearchParkingSpotsQuery } from '../api/viewApi';
 
 const SmartPark = () => {
   const router = useRouter();
+  const {width} = useWindowDimensions();
+  const isTablet = width >= 768;
+  const styles = createStyle(isTablet);
   const user = useSelector((state) => state.auth.user);
 
   const [location, setLocation] = useState(null);
@@ -35,10 +38,7 @@ const SmartPark = () => {
     },
   ] = useLazySearchParkingSpotsQuery();
 
-  const parkingSpots = isSearching
-    ? searchedParkingSpots
-    : allParkingSpots;
-
+  const parkingSpots = isSearching ? searchedParkingSpots : allParkingSpots;
   const isLoading = isLoadingAll || isLoadingSearch;
   const isError = isErrorAll || isErrorSearch;
 
@@ -56,7 +56,7 @@ const SmartPark = () => {
     if (!searchQuery.trim()) return parkingSpots;
 
     const q = searchQuery.toLowerCase();
-    return parkingSpots.filter(
+    return (parkingSpots).filter(
       (spot) =>
         spot.name?.toLowerCase().includes(q) ||
         spot.area?.toLowerCase().includes(q)
@@ -87,7 +87,7 @@ const SmartPark = () => {
           return;
         }
 
-        const currentLocation =
+     const currentLocation =
           await Location.getCurrentPositionAsync({});
         setLocation({
           latitude: currentLocation.coords.latitude,
@@ -169,9 +169,7 @@ const SmartPark = () => {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#3b82f6" />
-        <Text style={styles.loadingText}>
-          Loading parking spots...
-        </Text>
+        <Text style={styles.loadingText}> Loading parking spots... </Text>
       </View>
     );
   }
@@ -179,14 +177,12 @@ const SmartPark = () => {
   if (isError) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>
-          Failed to load parking spots
-        </Text>
+        <Text style={styles.errorText}>  Failed to load parking spots </Text>
         <Pressable
           style={styles.retryButton}
           onPress={refetchAll}
         >
-          <Text style={styles.retryButtonText}>Retry</Text>
+        <Text style={styles.retryButtonText}> Retry </Text>
         </Pressable>
       </View>
     );
@@ -195,11 +191,12 @@ const SmartPark = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>
-          Smart Parking Lot - Lagos
-        </Text>
+        <Pressable onPress={() => router.push('/')} style={styles.backButton}>
+          <Text style={styles.backText}> ← Back to Home </Text>
+        </Pressable>
+        <Text style={styles.headerTitle}> Smart Parking Lot - Lagos </Text>
         <Text style={styles.headerSubtitle}>
-          Welcome {user?.username} — Find parking near you
+          Welcome {user?.name} — Find parking near you
         </Text>
 
         {location && (
