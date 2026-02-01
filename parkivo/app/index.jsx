@@ -7,9 +7,8 @@ import createStyle from '@/styles/global';
 
 function Landing() {
   const router = useRouter();
-   const {width} = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const isTablet = width >= 768;
-
   const styles = createStyle(isTablet);
 
   return (

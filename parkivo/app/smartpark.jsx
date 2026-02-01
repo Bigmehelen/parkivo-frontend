@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Text, View, ActivityIndicator, Pressable, ScrollView, Platform, TextInput, Linking, FlatList} from 'react-native';
+import { Text, View, ActivityIndicator, Pressable, ScrollView, Platform, TextInput, Linking, useWindowDimensions, FlatList} from 'react-native';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import GoogleMap from '../components/GoogleMap';
-import { createStyle } from '../styles/parkStyle';
+import createStyle from '@/styles/parkStyle';
 import { useGetParkingSpotsQuery } from '../api/parkingApi';
 import { useLazySearchParkingSpotsQuery } from '../api/viewApi';
 
@@ -14,6 +14,7 @@ const SmartPark = () => {
   const {width} = useWindowDimensions();
   const isTablet = width >= 768;
   const styles = createStyle(isTablet);
+
   const user = useSelector((state) => state.auth.user);
 
   const [location, setLocation] = useState(null);

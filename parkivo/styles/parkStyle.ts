@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
-const styles = (isTablet: boolean) => StyleSheet.create({
+const styles = (isTablet: boolean) =>
+  StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: isTablet ? 'row' : 'column',
