@@ -1,15 +1,15 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // const token = import.meta.env.VITE_API_TOKEN;
 
 export const authApi = createApi({
   reducerPath: "authorizationApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://smrt-park-backend.onrender.com"
-   
+
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
-      query: (data)=> ({ 
+      query: (data) => ({
         url: "api/auth/register",
         method: "POST",
         body: data,
@@ -28,7 +28,10 @@ export const authApi = createApi({
         },
       }),
     }),
+    getUser: builder.query({
+      query: () => "api/auth/me", // Common pattern for getting current user
+    }),
   }),
 });
 
-export const {useRegisterUserMutation, useLoginUserMutation, useGetUserQuery} = authApi;
+export const { useRegisterUserMutation, useLoginUserMutation, useGetUserQuery } = authApi;

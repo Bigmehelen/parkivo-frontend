@@ -16,8 +16,8 @@ export const viewApi = createApi({
   endpoints: (builder) => ({
     searchParkingSpots: builder.query({
       query: (name) => ({
-        url: "/api/owner/parking-spaces/search-park-name",
-        params: {name},
+        url: "/api/parking/search-park-name", // Updated from owner route to user route
+        params: { name },
       }),
     }),
   }),
