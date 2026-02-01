@@ -12,7 +12,6 @@ import GoogleMap from '../components/GoogleMap';
 import { useGetNearbyParkingSpotsQuery } from '../api/parkingApi';
 import { useLazySearchParkingSpotsQuery } from '../api/viewApi';
 
-// UI Components
 import { SPACING, ELEVATION, RADIUS } from '../constants/AppTheme';
 import { Typography } from '../components/ui/Typography';
 import { ParkingSpotCard } from '../components/ui/ParkingSpotCard';
@@ -22,7 +21,7 @@ import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
 import Skeleton from '../components/ui/Skeleton';
 
-// Count-up Component for premium feel
+
 const CountUp = ({ value, duration = 1000 }) => {
   const [displayValue, setDisplayValue] = useState(0);
 

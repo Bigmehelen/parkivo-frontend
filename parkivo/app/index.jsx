@@ -19,7 +19,6 @@ function Landing() {
   const { colors, theme } = useTheme();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  // Responsive Breakpoints
   const isDesktop = width >= 1024;
   const isTablet = width >= 768 && width < 1024;
   const isMobile = width < 768;
@@ -37,48 +36,42 @@ function Landing() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
-      {/* Theme Toggle - Top Right */}
       <ThemeToggle style={styles.themeToggle} />
 
-      {/* Premium Background */}
       <MeshBackground />
 
       <ScrollView
         contentContainerStyle={[styles.scrollContent, { paddingHorizontal: horizontalPadding }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Center Container for Desktop */}
+        
         <View style={[styles.centerWrapper, { maxWidth: contentMaxWidth }]}>
-          {/* Hero Content */}
           <Animated.View
             entering={FadeInDown.duration(1000).springify()}
             style={styles.heroContent}
           >
-            {/* Logo Badge */}
+         
             <View style={[styles.logoBadge, { backgroundColor: colors.glass, borderColor: colors.border }]}>
               <Typography variant="label" style={[styles.logoText, { color: colors.primary }]}>PARKIVO</Typography>
             </View>
 
-            {/* Main Headline */}
             <View style={styles.headlineContainer}>
-              <Typography variant="display" style={[styles.headline, isDesktop && { fontSize: 84, lineHeight: 90 }]}>
+              <Typography variant="display" style={[styles.headline, isDesktop && { fontSize: 54, lineHeight: 90 }]}>
                 Premium
               </Typography>
-              <Typography variant="display" style={[styles.headline, styles.gradientText, isDesktop && { fontSize: 84, lineHeight: 90 }, { color: colors.primary }]}>
+              <Typography variant="display" style={[styles.headline, styles.gradientText, isDesktop && { fontSize: 42, lineHeight: 90 }, { color: colors.primary }]}>
                 Parking
               </Typography>
-              <Typography variant="display" style={[styles.headline, isDesktop && { fontSize: 84, lineHeight: 90 }]}>
+              <Typography variant="display" style={[styles.headline, isDesktop && { fontSize: 36, lineHeight: 90 }]}>
                 Experience
               </Typography>
             </View>
 
-            {/* Subheadline */}
             <Typography variant="h3" style={[styles.subheadline, isDesktop && { maxWidth: 650, fontSize: 24, textAlign: 'center' }, { color: colors.textSecondary }]}>
               Find, reserve, and navigate to parking spots in real-time.
               Smart parking made effortless.
             </Typography>
 
-            {/* Glass Stats Card */}
             <GlassCard style={[styles.statsCard, isDesktop && { padding: SPACING.xxl }]}>
               <View style={styles.statsRow}>
                 <View style={styles.statItem}>
@@ -102,7 +95,6 @@ function Landing() {
               </View>
             </GlassCard>
 
-            {/* CTA Buttons */}
             <View style={[styles.ctaContainer, isDesktop && { flexDirection: 'row', justifyContent: 'center', gap: SPACING.xl }]}>
               <GradientButton
                 title="Get Started"
@@ -120,7 +112,6 @@ function Landing() {
             </View>
           </Animated.View>
 
-          {/* Features Section */}
           <Animated.View
             entering={FadeInUp.delay(300).duration(1000).springify()}
             style={styles.featuresSection}
@@ -162,14 +153,12 @@ function Landing() {
           </Animated.View>
         </View>
 
-        {/* Bottom Spacer */}
         <View style={styles.bottomSpacer} />
       </ScrollView>
     </View>
   );
 }
 
-// Feature Card Component
 const FeatureCard = ({ icon, title, description, colors, isDesktop }) => (
   <GlassCard style={[styles.featureCard, isDesktop && { width: '23.5%' }]}>
     <View style={[styles.featureIconContainer, { backgroundColor: colors.glass }]}>

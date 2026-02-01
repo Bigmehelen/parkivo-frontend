@@ -176,11 +176,11 @@ export const FONTS = TYPOGRAPHY;
 export const SPACING = {
   xs: 4,
   s: 8,
-  m: 12,
-  l: 16,
-  xl: 24,
-  xxl: 32,
-  xxxl: 48,
+  m: 10,
+  l: 12,
+  xl: 18,
+  xxl: 24,
+  xxxl: 32,
   huge: 64,
 };
 
