@@ -15,14 +15,7 @@ export const parkingApi = createApi({
   }),
   endpoints: (builder) => ({
     getParkingSpots: builder.query({
-      query: () => "/api/parking/all",
-    }),
-
-    getNearbyParkingSpots: builder.query({
-      query: ({ latitude, longitude, radius = 5 }) => ({
-        url: `/api/parking/nearby?lat=${latitude}&lng=${longitude}&radius=${radius}`,
-        method: "GET",
-      }),
+      query: () => "/api/parking-spaces/all",
     }),
 
     getParkingSpotDetails: builder.query({
@@ -48,7 +41,6 @@ export const parkingApi = createApi({
 });
 
 export const {
-  useGetNearbyParkingSpotsQuery,
   useGetParkingSpotDetailsQuery,
   useReserveParkingSpotMutation,
   useUpdateParkingAvailabilityMutation,

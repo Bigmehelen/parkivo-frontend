@@ -99,7 +99,7 @@ function RootNavigator() {
 }
 
 export default function RootLayout() {
-  // Load Rubik fonts
+
   let [fontsLoaded] = useFonts({
     Rubik_300Light,
     Rubik_400Regular,
@@ -110,7 +110,7 @@ export default function RootLayout() {
     Rubik_900Black,
   });
 
-  // Show loading screen while fonts are loading
+  
   if (!fontsLoaded) {
     return (
       <View style={{ flex: 1, backgroundColor: '#000000', alignItems: 'center', justifyContent: 'center' }}>

@@ -1,0 +1,9 @@
+Testing endpoints on https://smrt-park-backend.onrender.com at 2026-02-02T12:43:49.684Z
+[403] /api/parking-spaces/all
+  Error/Status snippet: 
+[403] /api/parking-spaces/nearby?lat=6.50674&lng=3.378324&radius=10
+  Error/Status snippet: 
+[403] /health
+  Error/Status snippet: 
+[403] /
+  Error/Status snippet: 

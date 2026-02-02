@@ -7,9 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../api/authSlice';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-
 import GoogleMap from '../components/GoogleMap';
-import { useGetNearbyParkingSpotsQuery } from '../api/parkingApi';
+import { useGetParkingSpotsQuery } from '../api/parkingApi';
 import { useLazySearchParkingSpotsQuery } from '../api/viewApi';
 
 import { SPACING, ELEVATION, RADIUS } from '../constants/AppTheme';
@@ -53,12 +52,10 @@ const SmartPark = () => {
   const { width } = useWindowDimensions();
   const { colors, theme } = useTheme();
 
-  // Responsive breakpoints
   const isMobile = width < 768;
   const isTablet = width >= 768 && width < 1024;
   const isDesktop = width >= 1024;
 
-  // Responsive values
   const padding = isMobile ? SPACING.l : isTablet ? SPACING.xl : SPACING.xxl;
   const statsInRow = isMobile ? 3 : isTablet ? 3 : 4;
   const mapHeight = isDesktop ? '100%' : isMobile ? 250 : 350;
@@ -83,12 +80,8 @@ const SmartPark = () => {
     isError: isErrorAll,
     error: parkingError,
     refetch: refetchAll,
-  } = useGetNearbyParkingSpotsQuery({
-    latitude: location?.latitude,
-    longitude: location?.longitude,
-    radius: 10
-  }, {
-    skip: !isAuthenticated || !location
+  } = useGetParkingSpotsQuery(undefined, {
+    skip: !isAuthenticated
   });
 
   const [
@@ -202,7 +195,6 @@ const SmartPark = () => {
       router.replace('/');
     } catch (error) {
       console.error('Logout error:', error);
-      // Fallback if haptics fail or something else
       dispatch(logout());
       router.replace('/');
     }
@@ -296,6 +288,13 @@ const SmartPark = () => {
                 <Typography variant="button" style={styles.retryText}>Retry Connection</Typography>
               </LinearGradient>
             </Pressable>
+
+            <Pressable onPress={handleLogout} style={[styles.retryButton, { marginTop: SPACING.m, backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.border }]}>
+              <View style={styles.retryGradient}>
+                <Ionicons name="log-out-outline" size={20} color={colors.text} />
+                <Typography variant="button" style={{ color: colors.text }}>Log Out</Typography>
+              </View>
+            </Pressable>
           </View>
         </LinearGradient>
       </View>
@@ -306,7 +305,6 @@ const SmartPark = () => {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
 
-      {/* Hero Header */}
       <LinearGradient colors={theme === 'dark' ? ['#000000', '#0A0A0A', '#1A1A1A'] : ['#F9FAFB', '#F3F4F6', '#E5E7EB']} style={styles.heroHeader}>
         <View style={styles.headerTop}>
           <View>
@@ -329,7 +327,6 @@ const SmartPark = () => {
           </View>
         </View>
 
-        {/* Quick Stats */}
         <View style={styles.quickStats}>
           <View style={styles.statCard}>
             <LinearGradient colors={[colors.primary, colors.primaryDark || colors.primary]} style={styles.statGradient}>
@@ -362,7 +359,6 @@ const SmartPark = () => {
           </View>
         </View>
 
-        {/* Search Bar */}
         <GlassCard style={[styles.searchContainer, { borderColor: colors.border }]}>
           <Ionicons name="search-outline" size={22} color={colors.textSecondary} />
           <Input
@@ -380,9 +376,7 @@ const SmartPark = () => {
         </GlassCard>
       </LinearGradient>
 
-      {/* Main Dashboard Layout */}
       <View style={[styles.mainLayout, isDesktop && styles.desktopLayout]}>
-        {/* Map Section */}
         <View style={[
           styles.mapContainer,
           isDesktop ? styles.desktopMap : { height: mapHeight },
@@ -428,13 +422,12 @@ const SmartPark = () => {
           </Pressable>
         </View>
 
-        {/* List Section */}
         <View style={[
           styles.contentContainer,
           isDesktop && styles.desktopContent,
           { backgroundColor: colors.background, shadowColor: '#000' }
         ]}>
-          {/* Modern Tab Filters */}
+
           <View style={[styles.tabContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
             <Pressable
               onPress={() => setFilterStatus('all')}
@@ -491,7 +484,6 @@ const SmartPark = () => {
             </Pressable>
           </View>
 
-          {/* Sort Options */}
           <View style={styles.sortRow}>
             <Typography variant="caption" style={[styles.sortLabel, { color: colors.textTertiary }]}>Sort by:</Typography>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.sortOptions}>
@@ -521,7 +513,6 @@ const SmartPark = () => {
             </ScrollView>
           </View>
 
-          {/* Parking List */}
           <ScrollView
             style={styles.listScroll}
             showsVerticalScrollIndicator={false}
@@ -551,7 +542,7 @@ const SmartPark = () => {
                 />
               ))
             ) : isLoading ? (
-              // Enhanced Loading State with Skeletons
+
               <View style={{ gap: SPACING.m }}>
                 {[1, 2, 3, 4].map(i => (
                   <Skeleton key={i} width="100%" height={120} borderRadius={RADIUS.l} />

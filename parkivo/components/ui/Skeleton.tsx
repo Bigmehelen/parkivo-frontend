@@ -3,7 +3,14 @@ import { View, Animated, StyleSheet, Dimensions } from 'react-native';
 import { useTheme } from '../../context/ThemeContext';
 import { RADIUS } from '../../constants/AppTheme';
 
-const Skeleton = ({ width, height, borderRadius = RADIUS.m, style }) => {
+interface SkeletonProps {
+    width?: string | number;
+    height?: string | number;
+    borderRadius?: number;
+    style?: any;
+}
+
+const Skeleton: React.FC<SkeletonProps> = ({ width, height, borderRadius = RADIUS.m, style }) => {
     const { colors } = useTheme();
     const animatedValue = useRef(new Animated.Value(0)).current;
 

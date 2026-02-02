@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, useWindowDimensions, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -60,10 +60,10 @@ function Login() {
               {/* Back Button & Theme Toggle */}
               <View style={styles.header}>
                 <View style={styles.headerRow}>
-                  <View style={styles.backButton} onTouchEnd={() => router.push('/')}>
+                  <Pressable style={styles.backButton} onPress={() => router.push('/')}>
                     <Ionicons name="arrow-back" size={24} color={colors.text} />
                     <Typography variant="body" style={[styles.backText, { color: colors.textSecondary }]}>Back</Typography>
-                  </View>
+                  </Pressable>
                   <ThemeToggle />
                 </View>
               </View>
@@ -126,14 +126,14 @@ function Login() {
                     </View>
 
                     {/* Register Link */}
-                    <View style={styles.registerRow} onTouchEnd={() => router.push('/register')}>
+                    <Pressable style={styles.registerRow} onPress={() => router.push('/register')}>
                       <Typography variant="body" style={[styles.registerText, { color: colors.textSecondary }]}>
                         Don't have an account?{' '}
                       </Typography>
                       <Typography variant="body" style={[styles.registerLink, { color: colors.primary }]}>
                         Create Account
                       </Typography>
-                    </View>
+                    </Pressable>
                   </View>
                 </GlassCard>
               </View>
