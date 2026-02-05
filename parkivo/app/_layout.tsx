@@ -11,9 +11,9 @@ import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { hydrate } from '../api/authSlice';
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+// export const unstable_settings = {
+//   anchor: '(tabs)',
+// };
 
 function RootNavigator() {
   const { theme, colors } = useTheme();
