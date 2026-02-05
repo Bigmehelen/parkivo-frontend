@@ -36,7 +36,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
     const { colors } = useTheme();
     const availabilityPercent = (availableSpots / totalSpots) * 100;
 
-    // Determine status and colors
     const getStatusConfig = () => {
         if (availabilityPercent > 50) {
             return {
@@ -90,7 +89,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
                 style={styles.gradient}
             >
                 <View style={styles.content}>
-                    {/* Header */}
                     <View style={styles.header}>
                         <View style={styles.headerLeft}>
                             <Typography variant="h3" style={styles.name}>{name}</Typography>
@@ -107,7 +105,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
                             </View>
                         </View>
 
-                        {/* Status Badge */}
                         <View style={[styles.badge, { backgroundColor: statusConfig.color }]}>
                             <View style={[styles.pulse, { backgroundColor: statusConfig.color }]} />
                             <Ionicons name={statusConfig.icon} size={18} color="#FFFFFF" style={styles.badgeIcon} />
@@ -117,7 +114,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
                         </View>
                     </View>
 
-                    {/* Stats Row */}
                     <View style={styles.statsRow}>
                         <View style={styles.stat}>
                             <Typography variant="caption" style={styles.statLabel}>Status</Typography>
@@ -143,7 +139,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
                         </View>
                     </View>
 
-                    {/* Actions (only when selected) */}
                     {isSelected && (
                         <View style={styles.actions}>
                             <GradientButton
@@ -162,7 +157,6 @@ export const ParkingSpotCard: React.FC<ParkingSpotCardProps> = ({
                 </View>
             </LinearGradient>
 
-            {/* Selection Indicator */}
             {isSelected && <View style={styles.selectionIndicator} />}
         </Pressable>
     );
@@ -173,7 +167,7 @@ const styles = StyleSheet.create({
         borderRadius: RADIUS.xl,
         marginBottom: SPACING.m,
         borderWidth: 1,
-        overflow: 'hidden',
+        overflow: 'scroll',
         ...ELEVATION.card,
     },
     selected: {

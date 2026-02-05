@@ -178,7 +178,7 @@ export const SPACING = {
   s: 8,
   m: 10,
   l: 12,
-  xl: 18,
+  xl: 16,
   xxl: 24,
   xxxl: 32,
   huge: 64,
@@ -190,9 +190,9 @@ export const SPACING = {
 export const RADIUS = {
   xs: 4,
   s: 8,
-  m: 12,
-  l: 16,
-  xl: 20,
+  m: 10,
+  l: 12,
+  xl: 16,
   xxl: 24,
   full: 9999,
 };

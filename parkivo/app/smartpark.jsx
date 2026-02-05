@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     minHeight: 200,
-    maxHeight: 400,
+    maxHeight: 300,
     position: 'relative',
   },
   mapPlaceholder: {
@@ -803,7 +803,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   tabActive: {
-    // Active state handled by gradient overlay
+    
   },
   tabActiveGradient: {
     ...StyleSheet.absoluteFillObject,
