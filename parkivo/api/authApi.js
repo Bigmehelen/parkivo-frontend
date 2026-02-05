@@ -29,7 +29,7 @@ export const authApi = createApi({
       }),
     }),
     getUser: builder.query({
-      query: () => "api/auth/me", // Common pattern for getting current user
+      query: () => "api/auth/me",
     }),
   }),
 });

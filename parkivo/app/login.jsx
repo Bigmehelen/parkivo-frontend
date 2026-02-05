@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, useWindowDimensions, Pressable } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Platform, useWindowDimensions, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import { GlassCard } from '../components/ui/GlassCard';
 import { Input } from '../components/ui/Input';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import styles from '../styles/loginStyle';
 
 function Login() {
   const router = useRouter();
@@ -57,7 +58,6 @@ function Login() {
             showsVerticalScrollIndicator={false}
           >
             <View style={[styles.centerWrapper, { maxWidth: 1200, alignSelf: 'center', width: '100%' }]}>
-              {/* Back Button & Theme Toggle */}
               <View style={styles.header}>
                 <View style={styles.headerRow}>
                   <Pressable style={styles.backButton} onPress={() => router.push('/')}>
@@ -69,7 +69,7 @@ function Login() {
               </View>
 
               <View style={[styles.formWrapper, { width: formWidth, alignSelf: 'center' }]}>
-                {/* Logo/Brand */}
+
                 <View style={styles.logoContainer}>
                   <View style={[styles.logoBadge, { backgroundColor: colors.glass, borderColor: colors.border }]}>
                     <Ionicons name="car-sport" size={32} color={colors.primary} />
@@ -80,7 +80,6 @@ function Login() {
                   </Typography>
                 </View>
 
-                {/* Login Form */}
                 <GlassCard style={styles.formCard}>
                   <View style={styles.formContent}>
                     <Input
@@ -118,14 +117,12 @@ function Login() {
                       icon={<Ionicons name="log-in" size={20} color="#FFFFFF" />}
                     />
 
-                    {/* Divider */}
                     <View style={styles.divider}>
                       <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
                       <Typography variant="caption" style={[styles.dividerText, { color: colors.textTertiary }]}>OR</Typography>
                       <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
                     </View>
 
-                    {/* Register Link */}
                     <Pressable style={styles.registerRow} onPress={() => router.push('/register')}>
                       <Typography variant="body" style={[styles.registerText, { color: colors.textSecondary }]}>
                         Don't have an account?{' '}
@@ -139,7 +136,6 @@ function Login() {
               </View>
             </View>
 
-            {/* Bottom Spacer */}
             <View style={styles.bottomSpacer} />
           </ScrollView>
         </KeyboardAvoidingView>
@@ -147,102 +143,5 @@ function Login() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  gradient: {
-    flex: 1,
-  },
-  keyboardView: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: SPACING.l,
-    paddingTop: SPACING.xl,
-  },
-  header: {
-    marginBottom: SPACING.xl,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.s,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: SPACING.xxl,
-  },
-  logoBadge: {
-    width: 80,
-    height: 80,
-    borderRadius: RADIUS.full,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: SPACING.l,
-    ...ELEVATION.glow,
-  },
-  title: {
-    marginBottom: SPACING.s,
-  },
-  subtitle: {
-    textAlign: 'center',
-  },
-  formCard: {
-    padding: SPACING.xl,
-  },
-  formContent: {
-    gap: SPACING.l,
-  },
-  input: {
-    marginBottom: SPACING.s,
-  },
-  errorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.s,
-    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-    padding: SPACING.m,
-    borderRadius: RADIUS.m,
-    borderWidth: 1,
-  },
-  errorText: {
-    flex: 1,
-  },
-  loginButton: {
-    marginTop: SPACING.m,
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: SPACING.m,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-  },
-  dividerText: {
-    marginHorizontal: SPACING.m,
-  },
-  registerRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  registerLink: {
-    fontWeight: '600',
-  },
-  bottomSpacer: {
-    height: SPACING.xxxl,
-  },
-});
 
 export default Login;

@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { SPACING, RADIUS, ELEVATION } from '../constants/AppTheme';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -6,6 +8,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     backgroundColor: '#fff',
+  },
+  scrollContent: {
+    paddingHorizontal: SPACING.l,
+    paddingTop: SPACING.xl,
+    paddingBottom: SPACING.xxxl,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: SPACING.xl,
+  },
+  formWrapper: {
+    gap: SPACING.xl,
+  },
+  titleSection: {
+    alignItems: 'center',
+    marginBottom: SPACING.m,
+  },
+  inputSection: {
+    gap: SPACING.m,
+  },
+  errorText: {
+    textAlign: 'center',
+  },
+  button: {
+    marginTop: SPACING.m,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: SPACING.l,
+  },
+  loginLink: {
+    fontWeight: '600',
+  },
+  bottomSpacer: {
+    height: SPACING.xxxl,
   },
   card:{
     width: '100%',
@@ -35,15 +74,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     fontSize: 16,
   },
-  button: {
-    backgroundColor:'#041579ff',
-    paddingVertical: 10,
-    borderRadius: 8,
-    width: '60%',
-    maxWidth: 300,
-    alignItems: 'center',
-    marginTop: 8,
-  },
   buttonText: {
     padding:5,
     color: '#fff',
@@ -59,7 +89,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: 'center',
     color: '#041579ff',
-  }
+  },
+
 });
 
 export default styles;

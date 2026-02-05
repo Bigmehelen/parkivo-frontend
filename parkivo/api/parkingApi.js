@@ -15,7 +15,7 @@ export const parkingApi = createApi({
   }),
   endpoints: (builder) => ({
     getParkingSpots: builder.query({
-      query: () => "/api/parking-spaces/all",
+      query: () => "/api/owner/parking-spaces/all",
     }),
 
     getParkingSpotDetails: builder.query({

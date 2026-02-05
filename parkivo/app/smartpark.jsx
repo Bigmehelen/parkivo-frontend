@@ -19,6 +19,7 @@ import { GlassCard } from '../components/ui/GlassCard';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
 import Skeleton from '../components/ui/Skeleton';
+import {useGetUserQuery} from "../api/authApi";
 
 
 const CountUp = ({ value, duration = 1000 }) => {
@@ -61,7 +62,7 @@ const SmartPark = () => {
   const mapHeight = isDesktop ? '100%' : isMobile ? 250 : 350;
   const contentMaxWidth = 1400;
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useGetUserQuery().data;
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [location, setLocation] = useState(null);

@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
+import { SPACING, RADIUS, ELEVATION } from '../constants/AppTheme';
+
 const styles = (isTablet: boolean) =>
   StyleSheet.create({
   hero: {
@@ -92,4 +94,133 @@ const styles = (isTablet: boolean) =>
     fontWeight: '600',
   },
 });
+
+// Index/Landing page styles
+const indexStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingTop: SPACING.huge,
+  },
+  centerWrapper: {
+    width: '100%',
+    alignSelf: 'center',
+  },
+  heroContent: {
+    alignItems: 'center',
+    marginBottom: SPACING.xxxl,
+  },
+  logoBadge: {
+    paddingHorizontal: SPACING.l,
+    paddingVertical: SPACING.s,
+    borderRadius: RADIUS.full,
+    borderWidth: 1,
+    marginBottom: SPACING.xxl,
+  },
+  logoText: {
+    letterSpacing: 4,
+    fontWeight: '700',
+    fontSize: 12,
+  },
+  headlineContainer: {
+    alignItems: 'center',
+    marginBottom: SPACING.l,
+  },
+  headline: {
+    textAlign: 'center',
+    lineHeight: 64,
+  },
+  gradientText: {
+  },
+  subheadline: {
+    textAlign: 'center',
+    maxWidth: 400,
+    marginBottom: SPACING.xxl,
+    opacity: 0.8,
+  },
+  statsCard: {
+    width: '100%',
+    marginBottom: SPACING.xxl,
+    padding: SPACING.l,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  statItem: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statNumber: {
+    marginBottom: SPACING.xs,
+    fontWeight: '700',
+  },
+  statLabel: {
+    textAlign: 'center',
+    opacity: 0.6,
+  },
+  statDivider: {
+    width: 1,
+    height: 40,
+    opacity: 0.3,
+  },
+  ctaContainer: {
+    width: '100%',
+    gap: SPACING.m,
+  },
+  primaryCTA: {
+    width: '100%',
+  },
+  secondaryCTA: {
+    width: '100%',
+  },
+  featuresSection: {
+    marginTop: SPACING.xxxl,
+  },
+  sectionTitle: {
+    textAlign: 'center',
+    marginBottom: SPACING.xxl,
+  },
+  featuresGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.m,
+    justifyContent: 'space-between',
+  },
+  featureCard: {
+    width: '48%',
+    padding: SPACING.xl,
+    alignItems: 'center',
+    ...ELEVATION.card,
+  },
+  featureIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: RADIUS.l,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: SPACING.l,
+  },
+  featureTitle: {
+    marginBottom: SPACING.m,
+    textAlign: 'center',
+  },
+  featureDescription: {
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  bottomSpacer: {
+    height: 100,
+  },
+  themeToggle: {
+    position: 'absolute',
+    top: Platform.OS === 'web' ? SPACING.l : 50,
+    right: SPACING.l,
+    zIndex: 100,
+  },
+});
+
+export { indexStyles };
 export default styles;

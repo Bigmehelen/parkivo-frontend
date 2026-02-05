@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, Pressable, ScrollView, KeyboardAvoidingView, Platform, StyleSheet, useWindowDimensions, StatusBar } from 'react-native';
+import { View, Pressable, ScrollView, KeyboardAvoidingView, Platform, useWindowDimensions, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../api/authSlice';
 import { useRegisterUserMutation } from '../api/authApi';
-import { SPACING, RADIUS, ELEVATION } from '../constants/AppTheme';
 import { Typography } from '../components/ui/Typography';
 import { GradientButton } from '../components/ui/GradientButton';
 import { Input } from '../components/ui/Input';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import styles from '../styles/registerStyle';
 
 const Register = () => {
   const router = useRouter();
@@ -124,48 +124,5 @@ const Register = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: SPACING.l,
-    paddingTop: SPACING.xl,
-    paddingBottom: SPACING.xxxl,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginBottom: SPACING.xl,
-  },
-  formWrapper: {
-    gap: SPACING.xl,
-  },
-  titleSection: {
-    alignItems: 'center',
-    marginBottom: SPACING.m,
-  },
-  inputSection: {
-    gap: SPACING.m,
-  },
-  errorText: {
-    textAlign: 'center',
-  },
-  button: {
-    marginTop: SPACING.m,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: SPACING.l,
-  },
-  loginLink: {
-    fontWeight: '600',
-  },
-  bottomSpacer: {
-    height: SPACING.xxxl,
-  },
-});
 
 export default Register;
