@@ -56,7 +56,6 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking, the
       return;
     }
 
-    // Load Google Maps script
     const loadGoogleMaps = () => {
       if (window.google && window.google.maps) {
         initMap();
@@ -90,7 +89,6 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking, the
       }
 
       try {
-        // Create map
         const map = new window.google.maps.Map(mapRef.current, {
           center: { lat: location.latitude, lng: location.longitude },
           zoom: 12,
@@ -103,7 +101,6 @@ const GoogleMap = ({ location, parkingSpots, onMarkerClick, selectedParking, the
         googleMapRef.current = map;
         setIsLoading(false);
 
-        // Add markers
         parkingSpots.forEach((spot) => {
           const percentage = (spot.availableSpots / spot.totalSpots) * 100;
           let markerColor = '#10b981'; // Green
@@ -180,7 +177,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
     height: '100%',
-    minHeight: 250,
+    minHeight: 200,
   },
   mobileContainer: {
     flex: 1,
@@ -189,7 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f4f6',
     borderRadius: 12,
     padding: 20,
-    minHeight: 250,
+    minHeight: 150,
   },
   mobileText: {
     fontSize: 16,
