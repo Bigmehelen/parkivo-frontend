@@ -8,6 +8,7 @@ const styles = (isTablet: boolean) =>
     backgroundColor: '#f3f4f6',
     position: 'relative',
     width: '100%',
+     overflowY: 'auto',
   },
   loadingContainer: {
     flex: 1,

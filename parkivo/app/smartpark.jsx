@@ -576,6 +576,7 @@ const SmartPark = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflowY: 'auto',
   },
   loadingContainer: {
     flex: 1,
