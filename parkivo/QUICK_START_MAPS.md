@@ -41,7 +41,6 @@ Click "ENABLE" → Wait 30 seconds
 
 ## Your API Key
 ```
-AIzaSyCeXQMardrYV9PtExu0ev8VkY72bNlbVKE
 ```
 
 ---
